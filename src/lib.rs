@@ -295,7 +295,7 @@ where
         crc_check >>= 12;
 
         if crc != crc_check {
-            panic!("PROM CRC did not match: {} != {}", crc, crc_check);
+            Err(MS5611Error::BadChecksum);
         }
         Ok(Prom {
             pressure_sensitivity,
