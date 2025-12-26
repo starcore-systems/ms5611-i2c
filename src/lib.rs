@@ -83,7 +83,7 @@ use maybe_async::maybe_async;
 #[derive(Debug)]
 pub enum MS5611Error {
     I2CError,
-    BadChecksum,
+    BadChecksum { expected: u16, got: u16 },
     BadProm,
     NoProm,
     BadAddress,
@@ -295,7 +295,10 @@ where
         crc_check >>= 12;
 
         if crc != crc_check {
-            Err(MS5611Error::BadChecksum);
+            return Err(MS5611Error::BadChecksum {
+                expected: crc_check,
+                got: crc,
+            });
         }
         Ok(Prom {
             pressure_sensitivity,
