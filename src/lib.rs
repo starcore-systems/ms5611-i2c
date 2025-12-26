@@ -194,8 +194,17 @@ where
         I: I2c,
     {
         let address = i2c_addr.unwrap_or(0x77);
+        Self::reset_initial(&mut i2c, address).await?;
         let prom = Self::read_prom(&mut i2c, address).await?;
         Ok(Ms5611 { i2c, address, prom })
+    }
+
+    pub async fn reset_initial(i2c: &mut I, address: u8) -> Result<(), MS5611Error> {
+        i2c.write(address, &[Ms5611Reg::Reset.addr()])
+            .await
+            .map_err(|_| MS5611Error::I2CError)?;
+        let _x = Timer::after(Duration::from_millis(500)).await;
+        Ok(())
     }
 
     #[maybe_async]
