@@ -203,7 +203,8 @@ where
         i2c.write(address, &[Ms5611Reg::Reset.addr()])
             .await
             .map_err(|_| MS5611Error::I2CError)?;
-        let _x = Timer::after(Duration::from_millis(500)).await;
+        // Most drivers do 3 ms, datasheet says typically 2.8 ms to reset
+        let _x = Timer::after(Duration::from_millis(10)).await;
         Ok(())
     }
 
@@ -213,9 +214,8 @@ where
             .write(self.address, &[Ms5611Reg::Reset.addr()])
             .await
             .map_err(|_| MS5611Error::I2CError)?;
-        // Haven't tested for the lower time bound necessary for the chip to
-        // start functioning again. But, it does require some amount of sleep.
-        let _x = Timer::after(Duration::from_millis(500)).await;
+        // Most drivers do 3 ms, datasheet says typically 2.8 ms to reset
+        let _x = Timer::after(Duration::from_millis(10)).await;
         Ok(())
     }
 
