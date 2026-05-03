@@ -23,24 +23,9 @@ readme = "README.md"  # The path to the README file
 #embedded-hal-bus = { version = "0.3" }  # Hardware Abstraction Layer for bus
 embedded-hal-async = { version = "1.0", optional = true }  # Async version of embedded-hal
 embedded-hal = { version = "1.0", optional = true }  # Embedded Hardware Abstraction Layer
-embassy-time = { version = "0.5.0" }  # Time utilities for the Embassy framework
+embassy-time = { git = "https://github.com/embassy-rs/embassy", tag = "embassy-stm32-v0.6.0" }  # Time utilities for the Embassy framework
 byteorder = { version = "1.1.0", default-features = false }  # Utilities for working with byte order
 maybe-async = "0.2"  # Conditional async/await support
-
-[target.riscv32imc-unknown-none-elf.dev-dependencies]
-# Development dependencies for the RISC-V target
-esp-alloc = { version = "0.6.0" }  # Memory allocator for ESP32
-esp-println = { version = "0.13.0", features = ["esp32c3", "log"] }  # Println macro for ESP32
-esp-hal = { version = "0.23.1", features = ["esp32c3", "unstable"] }  # Hardware Abstraction Layer for ESP32
-esp-hal-embassy = { version = "0.6.0", features = ["esp32c3"] }  # Embassy support for ESP32 HAL
-embassy-executor = { version = "0.7.0", features = ["task-arena-size-12288"] }  # Executor for the Embassy framework
-esp-backtrace = { version = "0.15.0", features = [
-  "esp32c3",  # Backtrace support for ESP32
-  "exception-handler",
-  "panic-handler",
-  "println",
-] }
-log = { version = "0.4.26" }  # Logging library
 
 [features]
 # Feature flags for conditional compilation
